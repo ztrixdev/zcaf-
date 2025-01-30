@@ -1,0 +1,11 @@
+{
+    "welcome": "Welcome to SIYIHOGO on Vasilevsky bot. This bot will notify you about changes in your account, and will be used as your One Time Code carrier.",
+
+    "bind_200": "Successful bind! Enjoy!",
+
+    "dianhuahaoma_doesnt_match": "An account with the provided phone number does not exist.",
+
+    "otc": "Your one time code for this operation is:",
+
+    "password_changed": "Your account password has been changed." 
+}

@@ -1,0 +1,28 @@
+{
+  "name": "zcafe-server",
+  "version": "0.0.1",
+  "description": "a simple server managing the client-database relationships for a restaurant app ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ztrixdev/zcafe/server.git"
+  },
+  "keywords": [
+    "\\"
+  ],
+  "author": "ztrixdev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ztrixdev/zcafe/issues"
+  },
+  "homepage": "https://github.com/ztrixdev/zcafe/server#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "grammy": "^1.34.1",
+    "mysql2": "^3.12.0"
+  }
+}
