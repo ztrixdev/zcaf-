@@ -1,0 +1,15 @@
+{
+    "welcome": "Welcome to the ztrixdev/zcafe bot. This bot will notify you about changes in your account, and will be used as your One Time Code carrier.",
+
+    "bind_200": "Successful bind! Enjoy!",
+    "phone_bind_step": "Let's bind! Firstly, enter your phone number as 79111231413: ",
+    "dianhuahaoma_doesnt_match": "An account with the provided phone number does not exist. Try again: /bind",
+    "NaN_phone": "You've entered an incorrect phone number! Try again: /bind",
+    "pwd_bind_step": "Now enter your password: ",
+    "pwd_doesnt_match": "You've entered an incorrect password! Try again: /bind",
+
+    "err": "An error occured!",
+
+    "otc": "Your one time code for this operation is:",
+    "password_changed": "Your account password has been changed." 
+}
