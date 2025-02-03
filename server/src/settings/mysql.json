@@ -1,6 +1,6 @@
 {
-    "host": "194.87.74.120",
-    "user": "ztrixhome",
+    "host": "ip:port",
+    "user": "user",
     "database": "zcafe", 
-    "password": "taipei!?Taiwan1947"
+    "password": "pwd"
 }
