@@ -1,6 +1,6 @@
 import { QueryResult } from "mysql2";
 import { getAdminByToken } from "./admin.ts";
-import { ConnectRunClose } from "./misc.ts";
+import { ConnectRunClose, logRequest } from "./misc.ts";
 
 import { Request, Response } from "express";
 
@@ -15,6 +15,7 @@ export async function getDishByID(id: Number): Promise<QueryResult | null> {
 }
 
 export async function newDishEntry(req: Request, res: Response): Promise<void> {
+    logRequest("POST", "/dish/newDishEntry", req.body);
     const admin: QueryResult | any = await getAdminByToken(req.body.token);
     if (admin != null) {
         try {
@@ -30,6 +31,7 @@ export async function newDishEntry(req: Request, res: Response): Promise<void> {
 }
 
 export async function modifyDish(req: Request, res: Response): Promise<void> {
+    logRequest("PATCH", "/dish/modifyDish", req.body);
     const admin: QueryResult | null = await getAdminByToken(req.body.token);
     const dish: QueryResult | null = await getDishByID(req.body.id);
     if (admin != null) {
@@ -62,6 +64,7 @@ export async function modifyDish(req: Request, res: Response): Promise<void> {
 }
 
 export async function removeDish(req: Request, res: Response) {
+    logRequest("DELETE", "/dish/removeDish", req.body);
     const admin: QueryResult | null = await getAdminByToken(req.body.token);
     const dish: QueryResult | null = await getDishByID(req.body.id);
     if (admin != null) {

@@ -9,8 +9,7 @@
     mc:Ignorable="d"
     Title="app">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBox x:Name="someText" PlaceholderText="Do i look like Gleb?"></TextBox>
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <Grid>
+        <Frame x:Name="rootFrame"></Frame>
+    </Grid>
 </Window>

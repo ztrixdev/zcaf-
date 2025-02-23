@@ -1,5 +1,5 @@
 import { QueryResult } from "mysql2";
-import { ConnectRunClose } from "./misc.ts";
+import { ConnectRunClose, logRequest } from "./misc.ts";
 import { Request, Response } from "express";
 
 export async function getAdminByToken(token: String): Promise<QueryResult | null> {
@@ -13,6 +13,7 @@ export async function getAdminByToken(token: String): Promise<QueryResult | null
 }
 
 export async function Alogin(req: Request, res: Response): Promise<void> {
+    logRequest("POST", "/admin/Alogin", req.body);
     try {
         const admin: QueryResult | null = await getAdminByToken(req.body.token);
         if (admin != null) { res.sendStatus(200); } 
@@ -24,6 +25,7 @@ export async function Alogin(req: Request, res: Response): Promise<void> {
 }
 
 export async function genAdminToken(req: Request, res: Response): Promise<void> {
+    logRequest("PATCH", "/admin/genToken", req.body);
     const admin: QueryResult | null = await getAdminByToken(req.body.headtoken); 
     if (admin != null && admin[0]['role'] == 'head') {
         const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-=+?><|;:/[]{}`~';

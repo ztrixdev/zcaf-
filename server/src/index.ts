@@ -14,16 +14,16 @@ app.use(json());
 app.get('/halloWelt', (req: Request, res: Response) => { res.send('Hallo Welt!'); });
 app.get('/iluvcoffee', (req: Request, res: Response) => { res.sendStatus(418); });
 
-// Customer-connected requests (See Wiki requests.md # /customer/)
-app.get('/customer/login', login);
+// Customer-connected requests (See docs/lang/server.md#Customer)
+app.post('/customer/login', login);
 app.post('/customer/signUp', signUp);
 app.patch('/customer/modifyCustomer', modifyCustomer);
 
-// Admin-connected requests (See Wiki requests.md # /admin/)
+// Admin-connected requests (See docs/lang/server.md#Admin)
 app.patch('/admin/genToken', genAdminToken);
-app.get('/admin/Alogin', Alogin);
+app.post('/admin/Alogin', Alogin);
 
-// Dish-connected requests (See Wiki requests.md # /dish/)
+// Dish-connected requests (See docs/lang/server.md#Dish)
 app.post('/dish/newDishEntry', newDishEntry);
 app.delete('/dish/removeDish', removeDish);
 app.patch('/dish/modifyDish', modifyDish);

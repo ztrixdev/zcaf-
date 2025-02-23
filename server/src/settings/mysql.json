@@ -1,6 +1,6 @@
 {
-    "host": "ip:port",
-    "user": "user",
+    "host": "HostIP",
+    "user": "usr",
     "database": "zcafe", 
-    "password": "pwd"
+    "password": "SQLpwd"
 }

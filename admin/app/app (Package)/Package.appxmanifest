@@ -8,16 +8,16 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="d3da52cb-a3e0-41dc-a708-74088db7af95"
+    Name="27b7e526-d89b-4025-b2c0-3d536fda62c4"
     Publisher="CN=ztrix"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="d3da52cb-a3e0-41dc-a708-74088db7af95" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="27b7e526-d89b-4025-b2c0-3d536fda62c4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>app</DisplayName>
+    <DisplayName>app (Package)</DisplayName>
     <PublisherDisplayName>ztrix</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -34,13 +34,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="app"
-        Description="app"
+        DisplayName="ms-resource:AppDisplayName"
+        Description="ms-resource:AppDescription"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
