@@ -27,15 +27,25 @@ namespace app.Handlers
             using (var http = new HttpClient())
             {
                 uri = FilterURI(uri);
-                var response = await http.GetAsync(uri + "/iluvcoffee");
-                if (((int)response.StatusCode) == 418)
+                try
                 {
-                    return true;
+                    var response = await http.GetAsync(uri + "/iluvcoffee");
+                    if (((int)response.StatusCode) == 418)
+                    {
+                        return true;
+                    }
                 }
-                else
+                catch (System.Net.Http.HttpRequestException)
                 {
                     return false;
                 }
+                catch (System.InvalidOperationException)
+                {
+                    return false;
+                }
+
+                return false;
+
             }
 
         }

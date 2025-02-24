@@ -136,7 +136,8 @@
     <value>Успешный вход! Перенаправление в панель через 3 секунды...</value>
   </data>
   <data name="Login_400" xml:space="preserve">
-    <value>Проверьте свои учетные данные для входа (URL-адрес сервера/токен) и повторите попытку.</value>
+    <value>Проверьте свои учетные данные для входа 
+(URL-адрес сервера/токен) и повторите попытку.</value>
   </data>
   <data name="Login_Btn.Content" xml:space="preserve">
     <value>Войти!</value>

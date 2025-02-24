@@ -136,7 +136,8 @@
     <value>Successful login! Redirecting to the panel in 3 seconds...</value>
   </data>
   <data name="Login_400" xml:space="preserve">
-    <value>Check your login credentials (Server URL/Token) and try again.</value>
+    <value>Check your login credentials,
+(Server URL/Token) and try again.</value>
   </data>
   <data name="Login_Btn.Content" xml:space="preserve">
     <value>Login!</value>

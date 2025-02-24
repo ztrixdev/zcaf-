@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media;
 using app.Handlers;
 using System.Threading.Tasks;
 using Microsoft.UI;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace app.Pages
 {
@@ -13,6 +14,22 @@ namespace app.Pages
         public LoginPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is string and "Bad Credentials")
+            {
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                StatusBox.Visibility = Visibility.Visible;
+                StatusText.Visibility = Visibility.Visible;
+
+                StatusBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                StatusBox.Background = new SolidColorBrush(Colors.Red);
+                StatusText.Text = resourceLoader.GetString("Login_400");
+            }
+
+            base.OnNavigatedTo(e);
         }
 
         private async void Login_Click(object sender, RoutedEventArgs e)
@@ -29,8 +46,9 @@ namespace app.Pages
                 StatusBox.Visibility = Visibility.Visible;
                 StatusText.Visibility = Visibility.Visible;
 
-                StatusBox.BorderBrush = new SolidColorBrush(Colors.LightGreen);
-                StatusBox.Background = new SolidColorBrush(Colors.LightGreen);
+                StatusBox.BorderBrush = new SolidColorBrush(Colors.Green);
+                StatusBox.Background = new SolidColorBrush(Colors.Green);
+                StatusBox.Height = 30;
                 StatusText.Text = resourceLoader.GetString("Login_200");
 
                 var settings = new Settings();

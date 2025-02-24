@@ -30,9 +30,10 @@ namespace app.Pages
             }
             else
             {
-                if (await Admin.Login(server, token))
+                var login_attempt = await Admin.Login(server, token);
+                if (!login_attempt)
                 {
-                    gleb.Text = "Successfull login lol";
+                    Frame.Navigate(typeof(Pages.LoginPage), "Bad Credentials");
                 }
             }
         }
