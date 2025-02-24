@@ -1,6 +1,6 @@
 import { QueryResult } from 'mysql2';
 import { notify } from '../bot.ts';
-import { ConnectRunClose, encrypt } from './misc.ts';
+import { ConnectRunClose, encrypt, logRequest } from './misc.ts';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
@@ -15,6 +15,7 @@ export async function getCustomerByPhone(phone: Number): Promise<QueryResult | n
 }
 
 export async function login(req: Request, res: Response): Promise<void> {
+    logRequest("POST", "/customer/login", req.body);
     try {
         const customer: QueryResult | null = await getCustomerByPhone(req.body.phone);
         if (customer == null) { res.sendStatus(404); } 
@@ -31,9 +32,10 @@ export async function login(req: Request, res: Response): Promise<void> {
 }
 
 export async function signUp(req: Request, res: Response): Promise<void> {
+    logRequest("POST", "/customer/signUp", req.body);
     const customer: QueryResult | null = await getCustomerByPhone(req.body.phone);
     if (customer == null) {                              
-        if (req.body.name.length > 1 && req.body.phone > 10000000000 && req.body.pwd.length > 8)  {
+        if (req.body.name.length > 1 && req.body.phone > 10000000000 && req.body.pwd.length >= 8)  {
             try {
                 const enc_pwd = await encrypt(req.body.pwd);
                 await ConnectRunClose(`insert into customers (name, phone, pwd) 
@@ -44,24 +46,29 @@ export async function signUp(req: Request, res: Response): Promise<void> {
                 res.sendStatus(409);
             }
         }
-        else { res.sendStatus(401); }
-    } else { res.sendStatus(400) };
+        else { res.sendStatus(400); }
+    } else { res.sendStatus(401) };
 } 
 
 
 
 export async function modifyCustomer(req: Request, res: Response): Promise<void> {
+    logRequest("PATCH", "/customer/modifyCustomer", req.body);
     const customer: QueryResult | null = await getCustomerByPhone(req.body.phone);
     if (customer != null) {
         if (req.body.type == 'changePwd') {
             if (customer[0]['OTC'] == req.body.otc) {
-                try {
-                    await ConnectRunClose(`update customers set pwd=?, OTC=NULL where phone=?`, [await encrypt(req.body.newPwd), req.body.phone]);
-                    await notify('pwd', '', customer[0]['telegram']);
-                    res.sendStatus(200);
-                } catch (err: any) {
-                    console.error(err);
-                    res.sendStatus(409);    
+                if (req.body.newPwd.length >= 8) {
+                    try {
+                        await ConnectRunClose(`update customers set pwd=?, OTC=NULL where phone=?`, [await encrypt(req.body.newPwd), req.body.phone]);
+                        await notify('pwd', '', customer[0]['telegram']);
+                        res.sendStatus(200);
+                    } catch (err: any) {
+                        console.error(err);
+                        res.sendStatus(409);    
+                    }
+                } else {
+                    res.sendStatus(400);
                 }
             }
         }
@@ -76,7 +83,7 @@ export async function modifyCustomer(req: Request, res: Response): Promise<void>
                 res.sendStatus(409);
             }
         } 
-        else if (req.body.type == 'generic') {
+        else if (req.body.type == 'general') {
             const match: boolean = await bcrypt.compare(req.body.pwd, customer[0]['pwd'])
             if (match) {
                 const allowed: Array<string> = ['name', 'phone', 'telegram', 'orders', 'likes'];

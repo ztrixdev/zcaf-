@@ -20,7 +20,7 @@ export async function ConnectRunClose(query: string, params: any[] = []): Promis
         });
 
         const [results] = await connection.execute(query, params);
-        console.log(`NEW SQL REQUEST: ${JSON.stringify({ sql: query, status: 200 })}`);
+        console.log(`SQL query: {"query": ${query}, "params": [${params}]}`);
         if (Array.isArray(results) && results.length == 0) {
             return null;
         } else {
@@ -41,4 +41,8 @@ export async function encrypt(plainText: string) {
         if (err) console.error(err);
         return hash;
     });
+}
+
+export function logRequest(type: string, uri: string, body: any) {
+    console.log(`Request: ${type}: ${uri} with req.body=${JSON.stringify(body)}`);
 }

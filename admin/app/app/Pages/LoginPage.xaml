@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="app.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:app"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Margin="75,75" HorizontalAlignment="Left" Width="400">
+            <TextBlock FontFamily="Segoe UI" FontSize="24" Height="60" MaxWidth="300" x:Uid="Login"></TextBlock>
+            
+            <TextBlock 
+                FontSize="16"
+                Margin="0,10"
+                x:Uid="Enter_Server_URI"></TextBlock>
+            <TextBox x:Name="Server_Input" x:Uid="Server_Input"></TextBox>
+            <TextBlock
+                FontSize="16"
+                Margin="0,10"
+                x:Uid="Enter_Token"></TextBlock>
+            <TextBox x:Name="Token_Input" x:Uid="Token_Input"></TextBox>
+
+            <Button 
+                Margin="0, 30"
+                FontSize="18"
+                HorizontalAlignment="Center"
+                Click="Login_Click"
+                Background="ForestGreen" x:Uid="Login_Btn"></Button>
+
+            <Border x:Name="StatusBox" Visibility="Collapsed" 
+                    Margin="0,50" Height="50"
+                    BorderThickness="4">
+                <TextBlock x:Name="StatusText" FontSize="16" HorizontalAlignment="Center" Visibility="Collapsed"></TextBlock>
+            </Border>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" Width="900" >
+            <Border 
+                Margin="80"
+                BorderThickness="4" BorderBrush="ForestGreen"
+                VerticalAlignment="Center">
+                <!--Image by Freepik-->
+                <Image
+                    Source="https://raw.githubusercontent.com/ztrixdev/ztrixdev.github.io/refs/heads/main/imgstorage/zcafe/coffee_mug.jpg">
+                </Image>
+            </Border>
+        </StackPanel>
+    </Grid>
+    
+</Page>
