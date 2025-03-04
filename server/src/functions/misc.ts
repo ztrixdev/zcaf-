@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise';
+import mysql, { QueryResult } from 'mysql2/promise';
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcrypt';
@@ -8,7 +8,7 @@ export const loadJSON = (pathToFile: string): Record<string, any> =>
 
 const mss: Record<string, string> = loadJSON('./settings/mysql.json');
 
-export async function ConnectRunClose(query: string, params: any[] = []): Promise<any> {
+export async function ConnectRunClose(query: string, params: any[] = []): Promise<QueryResult | null> {
     let connection: mysql.Connection | undefined;
 
     try {

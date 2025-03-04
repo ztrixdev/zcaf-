@@ -22,10 +22,15 @@
   "homepage": "https://github.com/ztrixdev/zcafe/server#readme",
   "dependencies": {
     "@grammyjs/conversations": "^2.0.1",
+    "@types/express": "^5.0.0",
+    "@types/glob": "^8.1.0",
+    "@types/multer": "^1.4.12",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "express": "^4.21.2",
+    "glob": "^11.0.1",
     "grammy": "^1.35.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.12.0"
   }
 }

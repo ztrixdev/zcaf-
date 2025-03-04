@@ -36,7 +36,7 @@ export async function modifyDish(req: Request, res: Response): Promise<void> {
     const dish: QueryResult | null = await getDishByID(req.body.id);
     if (admin != null) {
         if (dish != null) {
-            const allowed: Array<string> = ['type', 'name', 'price', 'description', 'images', 'recommended', 'nutrition'];
+            const allowed: Array<string> = ['type', 'name', 'price', 'description', 'recommended', 'nutrition'];
             let sql_query: string = 'update dishes set ';
             let params: Array<string> = [];
     
@@ -63,7 +63,7 @@ export async function modifyDish(req: Request, res: Response): Promise<void> {
     } else { res.sendStatus(401); }
 }
 
-export async function removeDish(req: Request, res: Response) {
+export async function removeDish(req: Request, res: Response): Promise<void> {
     logRequest("DELETE", "/dish/removeDish", req.body);
     const admin: QueryResult | null = await getAdminByToken(req.body.token);
     const dish: QueryResult | null = await getDishByID(req.body.id);
@@ -80,4 +80,10 @@ export async function removeDish(req: Request, res: Response) {
     } else { res.sendStatus(401); }
 }
 
+export async function loadDishes(req: Request, res: Response): Promise<void> {
+    const admin: QueryResult | null = await getAdminByToken(req.query.token);
+    if (admin != null) {
+        res.send(await ConnectRunClose('select * from dishes', []));
+    } else { res.sendStatus(401); }
+}
 
