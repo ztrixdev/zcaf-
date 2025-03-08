@@ -13,20 +13,30 @@ export async function getAdminByToken(token: String): Promise<QueryResult | null
 }
 
 export async function Alogin(req: Request, res: Response): Promise<void> {
-    logRequest("POST", "/admin/Alogin", req.body);
+    logRequest("GET", "/admin/Alogin", req.body);
+
+    if (!req.body.token) {
+        res.status(400).json({error: 'No token specified. Provide a valid admin token and try again.'})
+    }
+
     try {
         const admin: QueryResult | null = await getAdminByToken(req.body.token);
-        if (admin != null) { res.sendStatus(200); } 
-        else { res.sendStatus(404); }
+        if (admin != null) { res.status(200).json({msg: 'Login successful! Proceed with your action.'});} 
+        else { res.status(404).json({error: 'An Admin with the provided token was not found in the database.'}); }
     } catch (err: any) {
         console.error(err);
-        res.sendStatus(409);
+        res.status(409).json({error: 'An error occured while logging in.'});
     }
 }
 
 export async function genAdminToken(req: Request, res: Response): Promise<void> {
-    logRequest("PATCH", "/admin/genToken", req.body);
-    const admin: QueryResult | null = await getAdminByToken(req.body.headtoken); 
+    logRequest("PUT", "/admin/genToken", req.body);
+
+    if (!req.body.token) {
+        res.status(400).json({error: 'No token specified. Provide a valid admin token and try again.'})
+    }
+
+    const admin: QueryResult | null = await getAdminByToken(req.body.token); 
     if (admin != null && admin[0]['role'] == 'head') {
         const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-=+?><|;:/[]{}`~';
         let result: string = '';
@@ -35,10 +45,10 @@ export async function genAdminToken(req: Request, res: Response): Promise<void> 
         }
         try {
             await ConnectRunClose(`insert into admins (role, token) values ("generic", ?)`, [result]);
-            res.sendStatus(200);
+            res.status(200).json({token: result});
         } catch (err: any) {
             console.error(err);
-            res.sendStatus(409);
+            res.status(409).json({error: 'An error occured while generating a new token'});
         }
-    } else { res.sendStatus(401); }
+    } else { res.status(401).json({error: 'The provided token does not belong to a Head Admin'}); }
 }

@@ -1,12 +1,12 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import multer from 'multer';
 import { getAdminByToken } from './admin';
 import { glob } from 'glob';
 import { getDishByID } from './dish';
-import { QueryResult } from 'mysql2';
-import { ConnectRunClose } from './misc';
+import { Query, QueryResult } from 'mysql2';
+import { ConnectRunClose, logRequest } from './misc';
 
 const imageDir: string = path.join(path.resolve(path.dirname('')), '../public/img');
 if (!fs.existsSync(imageDir)) {
@@ -77,7 +77,9 @@ const uploadMiddleware = multer({ storage: storage, fileFilter: (req, file, cb) 
     cb(null, true);
 } }).single('img');
 
-export async function upload(req: Request, res: Response): Promise<void> {
+export async function uploadImg(req: Request, res: Response): Promise<void> {
+    logRequest("PUT", "/images/upload", req.body);
+    
     uploadMiddleware(req, res, async (err: any) => {
         if (err) {
             return res.status(500).json({ error: 'File upload failed', details: err.message });
@@ -123,14 +125,45 @@ export async function upload(req: Request, res: Response): Promise<void> {
     });
 }
 
-export async function load(req: Request, res: Response): Promise<void> {
+export async function loadImg(req: Request, res: Response): Promise<void> {
+    logRequest("GET", "/images/load", req.query);
+
+    if (!req.body.id) {
+        res.status(400).json({ error: 'Dish ID is required' });
+    }
+
     try {
-        const image_object: QueryResult | null = await ConnectRunClose(`select * from images where id=?`, [req.body.id]);
+        const image_object: QueryResult | null = await ConnectRunClose(`select * from images where id=?`, [req.query.id]);
         if (image_object) {
             res.send(image_object[0]['files']);
-        } else { res.sendStatus(404); }
+        } else { res.status(404).json({error: 'Images were not found.'}); }
     } catch (err: any) {
         console.error(err);
-        res.sendStatus(404);
+        res.status(409).json({error: 'An error occured while loading images!'});
+    }
+}
+
+export async function removeImg(req: Request, res: Response): Promise<void> {
+    logRequest("DELETE", "/images/remove", req.body);
+
+    try {
+        const image_object: QueryResult | null = await ConnectRunClose(`select * from images where id=?`, [req.query.id]);
+        if (image_object) {
+            let images: Array<Object> = JSON.parse(image_object[0]['files']);
+            for (let i: number = 0; i < images.length; i++) {
+                if (images[i]['files'] == req.body.filename) {
+                    fs.unlink(`${imageDir}/${req.body.filename}`, (err: any) => {
+                        if (err) {
+                            console.error(`File failed to remove after an invalid request! error: ${err}, filename: ${req.file?.filename}`);
+                        }     
+                    } );
+                    images = images.filter(item => item !== images[i]);
+                }    
+            } 
+            await ConnectRunClose(`update images set files=? where id=?`, [images, req.body.id]);
+            res.status(200).json({msg: 'An image was removed successfuly!'});
+        }
+    } catch (err: any) {
+        res.status(409).json({error: 'An error occured removing the image!'});
     }
 }
